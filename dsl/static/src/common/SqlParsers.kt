@@ -131,7 +131,7 @@ public fun Cursor.asMapSequence(): Sequence<Map<String, Any>> {
 }
 
 @suppress("NOTHING_TO_INLINE")
-public inline fun <reified T> classParser(): RowParser<T> {
+public inline fun <reified T: Any> classParser(): RowParser<T> {
     val clazz = T::class.java
     val constructors = clazz.declaredConstructors.filter {
         val types = it.parameterTypes
