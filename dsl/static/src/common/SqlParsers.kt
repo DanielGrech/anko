@@ -187,35 +187,27 @@ private fun readColumnsMap(cursor: Cursor): Map<String, Any> {
 }
 
 private class CursorMapSequence(val cursor: Cursor) : Sequence<Map<String, Any>> {
-    override fun iterator(): Iterator<Map<String, Any>> {
-        return CursorMapIterator(cursor)
-    }
+    override fun iterator() = CursorMapIterator(cursor)
 }
 
 private class CursorSequence(val cursor: Cursor) : Sequence<Array<Any>> {
-    override fun iterator(): Iterator<Array<Any>> {
-        return CursorIterator(cursor)
-    }
+    override fun iterator() = CursorIterator(cursor)
 }
 
 private class CursorIterator(val cursor: Cursor) : Iterator<Array<Any>> {
+    override fun hasNext() = cursor.position < cursor.count - 1
+
     override fun next(): Array<Any> {
         cursor.moveToNext()
         return readColumnsArray(cursor)
     }
-
-    override fun hasNext(): Boolean {
-        return cursor.position < cursor.count - 1
-    }
 }
 
 private class CursorMapIterator(val cursor: Cursor) : Iterator<Map<String, Any>> {
+    override fun hasNext() = cursor.position < cursor.count - 1
+
     override fun next(): Map<String, Any> {
         cursor.moveToNext()
         return readColumnsMap(cursor)
-    }
-
-    override fun hasNext(): Boolean {
-        return cursor.position < cursor.count - 1
     }
 }
